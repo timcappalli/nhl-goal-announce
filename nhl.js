@@ -9,6 +9,7 @@ async function fetchTeamRoster(team, season) {
     const response = await fetch(`https://api-web.nhle.com/v1/roster/${team}/${season}`);
 
     if (!response.ok) {
+      //clean up error handling
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
@@ -17,7 +18,9 @@ async function fetchTeamRoster(team, season) {
     roster = [...jsonData['forwards'], ...jsonData['defensemen'], ...jsonData['goalies']];
 
     return roster;
+
   } catch (error) {
+    //clean up error handling
     console.error("Error fetching or processing data:", error);
   }
 }
@@ -26,6 +29,8 @@ export async function fetchTodaysGameId(team) {
 
   let isoLocalDateTime = utils.jsDateToISOLocalStr();
   let date = isoLocalDateTime.split("T")[0];
+
+  utils.debugLog(`Date: ${date}`);
 
   if (dateIdMap.has(date) && roster.length > 0) {
     utils.debugLog("Game ID is cached!");
@@ -38,7 +43,7 @@ export async function fetchTodaysGameId(team) {
       const response = await fetch(`https://api-web.nhle.com/v1/club-schedule/${team}/week/now`);
 
       if (!response.ok) {
-        console.error(`HTTP error! status: ${response.status}`);
+        utils.debugError(`HTTP error! status: ${response.status}`);
         //throw new Error(`HTTP error! status: ${response.status}`);
         return ({ status: 0 })
       }
@@ -47,6 +52,8 @@ export async function fetchTodaysGameId(team) {
       const games = jsonData.games;
 
       const game = games.find(game => game.gameDate === date);
+
+      utils.debugLog(game);
 
       if (game) {
         dateIdMap.set(`${date}`, `${game.id}`)
@@ -60,10 +67,11 @@ export async function fetchTodaysGameId(team) {
         return { status: 1, data: `${game.id}` };
 
       } else {
+        utils.debugLog("No game found for today.")
         return { status: 0 };
       }
     } catch (error) {
-      console.error("Error fetching or processing data:", error);
+      utils.debugError("Error fetching or processing data:", error);
       return ({ status: 0 })
     }
   }

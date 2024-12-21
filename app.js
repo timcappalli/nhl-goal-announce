@@ -3,6 +3,7 @@ import morgan from 'morgan';
 import 'dotenv/config';
 
 import * as nhl from './nhl.js';
+import pkgJson from './package.json' with { type: 'json' };
 
 const TEAM_ABBREV = process.env.TEAM_ABBREV || 'BOS';
 const ANNOUNCE_NAME = process.env.ANNOUNCE_NAME || 'Boston';
@@ -59,10 +60,10 @@ app.get('/getGameId', async (req, res) => {
 
 app.get('/config', (req, res) => {
 
-  res.send({ "teamAbbrev": TEAM_ABBREV, "announceName": ANNOUNCE_NAME })
+  res.send({ "teamAbbrev": TEAM_ABBREV, "announceName": ANNOUNCE_NAME, "version": pkgJson.version })
 
 });
 
 app.listen(PORT, () => {
-  console.log(`Configured for ${TEAM_ABBREV}. Listening on port ${PORT}. Debug mode: ${DEBUG}.`);
+  console.log(`v${pkgJson.version}. Configured for ${TEAM_ABBREV}. Listening on port ${PORT}. Debug mode: ${DEBUG}.`);
 });
