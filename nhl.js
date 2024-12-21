@@ -51,6 +51,8 @@ export async function fetchTodaysGameId(team) {
 
       const games = jsonData.games;
 
+      utils.debugLog(games);
+
       const game = games.find(game => game.gameDate === date);
 
       utils.debugLog(game);
