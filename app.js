@@ -4,9 +4,6 @@ import 'dotenv/config';
 
 import * as nhl from './nhl.js';
 
-//const url = 'https://api-web.nhle.com/v1/gamecenter/2024020518/landing';
-
-//const gameId = '2024020518';
 const TEAM_ABBREV = process.env.TEAM_ABBREV || 'BOS';
 const ANNOUNCE_NAME = process.env.ANNOUNCE_NAME || 'Boston';
 const PORT = process.env.PORT || 3000;

@@ -28,3 +28,19 @@ export function debugError(message) {
     console.error(message);
   }
 }
+
+export const jsDateToISOLocalStr = (d) => {
+  // https://stackoverflow.com/a/76203735/1831147
+  let retVal = null;
+  const parsedInput = (typeof d === "string" || d instanceof String) && d.length < 11 ? `${d} ` : d;
+
+  const utcDate = d ? new Date(parsedInput) : new Date();
+  if (String(utcDate).toLowerCase() !== "invalid date") {
+
+      const localTimestamp = utcDate.getTime() - utcDate.getTimezoneOffset() * 60 * 1000;
+      const localDate = new Date(localTimestamp);
+
+      retVal = localDate.toISOString().slice(0, -1);
+  }
+  return retVal;
+};

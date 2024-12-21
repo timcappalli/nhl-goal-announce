@@ -2,3 +2,4 @@ junk/
 sample/
 node_modules/
 .env
+.DS_Store

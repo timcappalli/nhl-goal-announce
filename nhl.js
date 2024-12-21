@@ -23,10 +23,9 @@ async function fetchTeamRoster(team, season) {
 }
 
 export async function fetchTodaysGameId(team) {
-  const today = new Date();
-  //const date = today.toISOString().slice(0, 10)
-  // TODO: Figure out timezone issues
-  const date = '2024-12-20' //test date
+
+  let isoLocalDateTime = utils.jsDateToISOLocalStr();
+  let date = isoLocalDateTime.split("T")[0];
 
   if (dateIdMap.has(date) && roster.length > 0) {
     utils.debugLog("Game ID is cached!");
@@ -52,7 +51,7 @@ export async function fetchTodaysGameId(team) {
       if (game) {
         dateIdMap.set(`${date}`, `${game.id}`)
         season = game.season;
-        
+
         utils.debugLog("Clearing roster...");
         roster = [];
         utils.debugLog("Fetching roster...");
