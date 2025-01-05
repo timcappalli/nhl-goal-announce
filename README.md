@@ -42,10 +42,10 @@ Returns the app's current configuration. Sample response:
 
 Config is done via environment variables passed to the container.
 
-| ENV             | Description                                                            | Default            |
-| --------------- | ---------------------------------------------------------------------- | ------------------ |
-| `TEAM_ABBREV`   | Team abbreviation (e.g. BOS, NYR, SEA)                                 | `BOS`              |
-| `ANNOUNCE_NAME` | The name for use in the announcement (e.g. "Boston goal, score by...") | `Boston`           |
-| `TZ_NAME`       | Timezone string (e.g. America/New_York)                                | `America/New_York` |
-| `PORT`          | Port for the web app                                                   | `3000`             |
+| ENV             | Description                                                             | Default            |
+| --------------- | ----------------------------------------------------------------------- | ------------------ |
+| `TEAM_ABBREV`   | Team abbreviation (e.g. BOS, NYR, SEA)                                  | `BOS`              |
+| `ANNOUNCE_NAME` | The name for use in the announcement (e.g. "Boston goal, scored by...") | `Boston`           |
+| `TZ_NAME`       | Timezone string (e.g. America/New_York)                                 | `America/New_York` |
+| `PORT`          | Port for the web app                                                    | `3000`             |
 | `DEBUG`         | Enable debug logging                                                    | `false`            |

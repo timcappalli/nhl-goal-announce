@@ -99,7 +99,9 @@ export async function getGoalAnnouncement(gameId, announceName, team) {
 
     const jsonData = await response.json();
 
-    if (jsonData.gameState !== 'LIVE') {
+    console.log(jsonData.gameState)
+
+    if (jsonData.gameState !== 'LIVE' && jsonData.gameState !== 'CRIT') {
       return ({ status: "NOT_STARTED", data: "" });
 
     } else {
