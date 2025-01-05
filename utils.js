@@ -37,10 +37,41 @@ export const jsDateToISOLocalStr = (d) => {
   const utcDate = d ? new Date(parsedInput) : new Date();
   if (String(utcDate).toLowerCase() !== "invalid date") {
 
-      const localTimestamp = utcDate.getTime() - utcDate.getTimezoneOffset() * 60 * 1000;
-      const localDate = new Date(localTimestamp);
+    const localTimestamp = utcDate.getTime() - utcDate.getTimezoneOffset() * 60 * 1000;
+    const localDate = new Date(localTimestamp);
 
-      retVal = localDate.toISOString().slice(0, -1);
+    retVal = localDate.toISOString().slice(0, -1);
   }
   return retVal;
+};
+
+export function checkTimeZoneString(tzString) {
+  try {
+    new Intl.DateTimeFormat('en-US', { timeZone: tzString });
+    return true;
+  } catch (e) {
+    return false;
+  }
+};
+
+export function getLocalDate(tzString) {
+  const now = new Date();
+  const options = { timeZone: tzString, hour12: false };
+  const formatter = new Intl.DateTimeFormat('en-US', {
+    ...options,
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit'
+  });
+
+  const parts = formatter.formatToParts(now);
+  const dateTime = parts.reduce((acc, part) => {
+    if (part.type !== 'literal') {
+      acc[part.type] = part.value;
+    }
+    return acc;
+  }, {});
+
+  const isoString = `${dateTime.year}-${dateTime.month}-${dateTime.day}`;
+  return isoString
 };

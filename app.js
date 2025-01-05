@@ -1,15 +1,21 @@
 import express from 'express';
 import morgan from 'morgan';
 import 'dotenv/config';
+import * as utils from './utils.js';
 
 import * as nhl from './nhl.js';
 import pkgJson from './package.json' with { type: 'json' };
 
 const TEAM_ABBREV = process.env.TEAM_ABBREV || 'BOS';
 const ANNOUNCE_NAME = process.env.ANNOUNCE_NAME || 'Boston';
+const TZ_NAME = process.env.TZ_NAME || 'America/New_York';
 const PORT = process.env.PORT || 3000;
 const DEBUG = process.env.DEBUG || false;
 
+if (!utils.checkTimeZoneString(TZ_NAME)) {
+  console.error(`Invalid timezone string: ${TZ_NAME}. (See: https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)`);
+  process.exit(1);
+};
 
 const app = express();
 if (DEBUG) { app.use(morgan('combined')); }
@@ -49,7 +55,7 @@ app.get('/announce', async (req, res) => {
 });
 
 app.get('/getGameId', async (req, res) => {
-  let data = await nhl.fetchTodaysGameId();
+  let data = await nhl.fetchTodaysGameId(TEAM_ABBREV);
 
   if (data.status === 1) {
     res.send(data.data)
@@ -60,7 +66,7 @@ app.get('/getGameId', async (req, res) => {
 
 app.get('/config', (req, res) => {
 
-  res.send({ "teamAbbrev": TEAM_ABBREV, "announceName": ANNOUNCE_NAME, "version": pkgJson.version })
+  res.send({ "teamAbbrev": TEAM_ABBREV, "announceName": ANNOUNCE_NAME, "timezone": TZ_NAME, "version": pkgJson.version })
 
 });
 
