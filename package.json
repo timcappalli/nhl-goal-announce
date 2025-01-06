@@ -1,6 +1,6 @@
 {
   "name": "nhl-game-announce",
-  "version": "2025.01.06",
+  "version": "2025.01.06a",
   "type": "module",
   "main": "app.js",
   "scripts": {
