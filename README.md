@@ -6,12 +6,41 @@ This app generates the text of a goal announcement using the NHL API. I created 
 
 **/announce**
 
-This is the primary endpoint for fetching the goal announcement. Sample response:
+This is the primary endpoint for fetching the goal announcement. It only returns the status and the goal announcement text. Sample response:
 
 ```json
 {
   "status": "GOAL",
   "data": "Boston goal, scored by number 11, Trent Frederic. Assisted by number 73 Charlie McAvoy. Time of the goal 18:44. Frederic's 6th goal of the season from McAvoy at 18:44."
+}
+```
+
+If the previous goal wasn't from the configured team, or its a scoreless game, the status will be `NO_GOAL`.
+
+**/goal**
+
+This is the is a more detail endpoint which returns the announcement as well as the raw goal data. Sample response:
+
+```json
+{
+  "status": "GOAL",
+  "data": {
+    "announcement": "Boston goal, scored by number 11, Trent Frederic. Assisted by number 73 Charlie McAvoy. Time of the goal 18:44. Frederic's 6th goal of the season from McAvoy at 18:44.",
+    "name": "Trent Frederic",
+    "firstName": "Trent",
+    "lastName": "Frederic",
+    "number": "11",
+    "timeOfGoal": "18:44",
+    "goalNumber": "6th",
+    "assists": [
+      {
+        "name": "Charlie McAvoy",
+        "firstName": "Charlie",
+        "lastName": "McAvoy",
+        "number": "73"
+      }
+    ]
+  }
 }
 ```
 

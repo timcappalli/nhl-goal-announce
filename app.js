@@ -39,6 +39,38 @@ app.get('/announce', async (req, res) => {
       let data = await nhl.getGoalAnnouncement(gameIdResponse.data, ANNOUNCE_NAME, TEAM_ABBREV);
 
       if (data) {
+        if (data.status === "GOAL") {
+          res.send(
+            {
+              status: data.status,
+              data: data.data.announcement
+            }
+          );
+        } else {
+          res.send(data)
+        }
+      } else {
+        res.status(500).end();
+      }
+
+    } else {
+      res.status(204).end()
+    }
+  }
+  catch (e) {
+    console.error(e);
+    res.status(500).end();
+  }
+});
+
+app.get('/goal', async (req, res) => {
+  try {
+    let gameIdResponse = await nhl.fetchTodaysGameId(TEAM_ABBREV);
+
+    if (gameIdResponse.status === 1) {
+      let data = await nhl.getGoalAnnouncement(gameIdResponse.data, ANNOUNCE_NAME, TEAM_ABBREV);
+
+      if (data) {
         res.send(data);
       } else {
         res.status(500).end();

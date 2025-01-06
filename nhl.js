@@ -99,7 +99,7 @@ export async function getGoalAnnouncement(gameId, announceName, team) {
 
     const jsonData = await response.json();
 
-    console.log(jsonData.gameState)
+    utils.debugLog(`Game State: ${jsonData.gameState}`);
 
     if (jsonData.gameState !== 'LIVE' && jsonData.gameState !== 'CRIT') {
       return ({ status: "NOT_STARTED", data: "" });
@@ -129,24 +129,60 @@ export async function getGoalAnnouncement(gameId, announceName, team) {
 
         let fullAnnounce;
 
+        let data = {
+          announcement: "",
+          firstName: "",
+          lastName: "",
+          number: "",
+          timeOfGoal: "",
+          goalNumber: "",
+          assists: []
+        };
+
         if (mostRecentTeamGoal.assists.length === 2) {
           let assist1 = `number ${mostRecentTeamGoal.assists[0].sweaterNumber} ${mostRecentTeamGoal.assists[0].firstName.default} ${mostRecentTeamGoal.assists[0].lastName.default}`;
           let assist2 = `number ${mostRecentTeamGoal.assists[1].sweaterNumber} ${mostRecentTeamGoal.assists[1].firstName.default} ${mostRecentTeamGoal.assists[1].lastName.default}`;
-          fullAnnounce = `${announceName} goal, scored by number ${goalSweater}, ${scoredBy}. Assisted by ${assist1} and ${assist2}. Time of the goal ${mostRecentTeamGoal.timeInPeriod}... ${goalLast}'s ${goalCount} goal of the season from ${mostRecentGoal.assists[0].lastName.default} and ${mostRecentGoal.assists[1].lastName.default}, at ${mostRecentGoal.timeInPeriod}.`;
+          fullAnnounce = `${announceName} goal, scored by number ${goalSweater}, ${scoredBy}. Assisted by ${assist1} and ${assist2}. Time of the goal ${mostRecentTeamGoal.timeInPeriod}... That's ${goalLast}'s ${goalCount} goal of the season from ${mostRecentGoal.assists[0].lastName.default} and ${mostRecentGoal.assists[1].lastName.default}, at ${mostRecentGoal.timeInPeriod}.`;
+
+          data.announcement = fullAnnounce;
+          data.name = scoredBy;
+          data.firstName = goalFirst;
+          data.lastName = goalLast;
+          data.number = `${goalSweater}`;
+          data.timeOfGoal = `${mostRecentTeamGoal.timeInPeriod}`;
+          data.goalNumber = `${goalCount}`;
+          data.assists.push({ name: `${mostRecentTeamGoal.assists[0].firstName.default} ${mostRecentTeamGoal.assists[0].lastName.default}`, firstName: `${mostRecentTeamGoal.assists[0].firstName.default}`, lastName: `${mostRecentTeamGoal.assists[0].lastName.default}`, number: `${mostRecentTeamGoal.assists[0].sweaterNumber}` });
+          data.assists.push({ name: `${mostRecentTeamGoal.assists[1].firstName.default} ${mostRecentTeamGoal.assists[1].lastName.default}`, firstName: `${mostRecentTeamGoal.assists[1].firstName.default}`, lastName: `${mostRecentTeamGoal.assists[1].lastName.default}`, number: `${mostRecentTeamGoal.assists[1].sweaterNumber}` });
 
         } else if (mostRecentTeamGoal.assists.length === 1) {
           let assist1 = `number ${mostRecentTeamGoal.assists[0].sweaterNumber} ${mostRecentTeamGoal.assists[0].firstName.default} ${mostRecentTeamGoal.assists[0].lastName.default}`;
           fullAnnounce = `${announceName} goal, scored by number ${goalSweater}, ${scoredBy}. Assisted by ${assist1}. Time of the goal ${mostRecentTeamGoal.timeInPeriod}. ${goalLast}'s ${goalCount} goal of the season from ${mostRecentGoal.assists[0].lastName.default} at ${mostRecentGoal.timeInPeriod}.`;
+
+          data.announcement = fullAnnounce;
+          data.name = scoredBy;
+          data.firstName = goalFirst;
+          data.lastName = goalLast;
+          data.number = `${goalSweater}`;
+          data.timeOfGoal = `${mostRecentTeamGoal.timeInPeriod}`;
+          data.goalNumber = `${goalCount}`;
+          data.assists.push({ name: `${mostRecentTeamGoal.assists[0].firstName.default} ${mostRecentTeamGoal.assists[0].lastName.default}`, firstName: `${mostRecentTeamGoal.assists[0].firstName.default}`, lastName: `${mostRecentTeamGoal.assists[0].lastName.default}`, number: `${mostRecentTeamGoal.assists[0].sweaterNumber}` });
         } else {
-          fullAnnounce = `${announceName} goal, an unassisted goal, scored by number ${goalSweater}, ${scoredBy}. Time of the goal ${mostRecentTeamGoal.timeInPeriod}.`
+          fullAnnounce = `${announceName} goal, an unassisted goal, scored by number ${goalSweater}, ${scoredBy}. Time of the goal ${mostRecentTeamGoal.timeInPeriod}. That's ${goalLast}'s ${goalCount} goal of the season at ${mostRecentGoal.timeInPeriod}.`;
+          data.announcement = fullAnnounce;
+          data.name = scoredBy;
+          data.firstName = goalFirst;
+          data.lastName = goalLast;
+          data.number = `${goalSweater}`;
+          data.timeOfGoal = `${mostRecentTeamGoal.timeInPeriod}`;
+          data.goalNumber = `${goalCount}`;
         };
 
-        utils.debugLog(fullAnnounce);
+        utils.debugLog(data);
 
-        return ({ status: "GOAL", data: fullAnnounce });
+        return ({ status: "GOAL", data });
 
       } else {
-        return ({ status: "NO_GOALS" })
+        return ({ status: "NO_GOALS", data: {} })
       };
     }
   } catch (error) {
