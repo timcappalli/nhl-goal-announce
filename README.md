@@ -26,6 +26,7 @@ This is the is a more detail endpoint which returns the announcement as well as 
   "status": "GOAL",
   "data": {
     "announcement": "Boston goal, scored by number 11, Trent Frederic. Assisted by number 73 Charlie McAvoy. Time of the goal 18:44. Frederic's 6th goal of the season from McAvoy at 18:44.",
+    "shortText": "Frederic (6th), McAvoy (A) @ 18:11",
     "name": "Trent Frederic",
     "firstName": "Trent",
     "lastName": "Frederic",
