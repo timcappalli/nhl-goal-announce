@@ -20,6 +20,25 @@ if (!utils.checkTimeZoneString(TZ_NAME)) {
 const app = express();
 if (DEBUG) { app.use(morgan('combined')); }
 
+// Middleware to fetch game data
+const fetchGameData = async (req, res, next) => {
+  try {
+    const gameIdResponse = await nhl.fetchTodaysGameId(TEAM_ABBREV);
+    if (gameIdResponse.status !== 1) {
+      return res.status(204).end();
+    }
+
+    const goalData = await nhl.getGoalAnnouncement(gameIdResponse.data, ANNOUNCE_NAME, TEAM_ABBREV);
+    if (!goalData) {
+      return res.status(500).end();
+    }
+    req.goalData = goalData;
+    next();
+  } catch (e) {
+    console.error(e);
+    res.status(500).end();
+  }
+};
 
 app.get('/', (req, res) => {
   res.status(204).end();
@@ -54,59 +73,21 @@ app.get('/demo/goal', (req, res) => {
 });
 
 
-app.get('/announce', async (req, res) => {
-  try {
-    let gameIdResponse = await nhl.fetchTodaysGameId(TEAM_ABBREV);
-
-    if (gameIdResponse.status === 1) {
-      let data = await nhl.getGoalAnnouncement(gameIdResponse.data, ANNOUNCE_NAME, TEAM_ABBREV);
-
-      if (data) {
-        if (data.status === "GOAL") {
-          res.send(
-            {
-              status: data.status,
-              data: data.data.announcement
-            }
-          );
-        } else {
-          res.send(data)
-        }
-      } else {
-        res.status(500).end();
-      }
-
-    } else {
-      res.status(204).end()
-    }
-  }
-  catch (e) {
-    console.error(e);
-    res.status(500).end();
+app.get('/announce', fetchGameData, (req, res) => {
+  const { goalData } = req;
+  if (goalData.status === "GOAL") {
+    res.send({
+      status: goalData.status,
+      data: goalData.data.announcement
+    });
+  } else {
+    res.send(goalData);
   }
 });
 
-app.get('/goal', async (req, res) => {
-  try {
-    let gameIdResponse = await nhl.fetchTodaysGameId(TEAM_ABBREV);
-
-    if (gameIdResponse.status === 1) {
-      let data = await nhl.getGoalAnnouncement(gameIdResponse.data, ANNOUNCE_NAME, TEAM_ABBREV);
-
-      if (data) {
-        res.send(data);
-      } else {
-        res.status(500).end();
-      }
-
-    } else {
-      res.status(204).end()
-    }
-  }
-  catch (e) {
-    console.error(e);
-    res.status(500).end();
-  }
+app.get('/goal', fetchGameData, (req, res) => {
+  const { goalData } = req;
+  res.send(goalData);
 });
 
 app.get('/getGameId', async (req, res) => {
