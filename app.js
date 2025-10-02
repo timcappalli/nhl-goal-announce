@@ -25,9 +25,32 @@ app.get('/', (req, res) => {
   res.status(204).end();
 });
 
-app.get('/demo', (req, res) => {
-  //res.status(204).end();
+app.get('/demo/announce', (req, res) => {
   res.send({ status: "GOAL", data: "Boston goal, scored by number 28, Elias Lindholm. Assisted by number 63 Brad Marchand and number 73 Charlie McAvoy. Time of the goal 01:07... Lindholm's 5th goal of the season from Marchand and McAvoy, at 01:07." })
+});
+
+app.get('/demo/goal', (req, res) => {
+  res.send({
+  status: "GOAL",
+  data: {
+    announcement: "Boston goal, scored by number 11, Trent Frederic. Assisted by number 73 Charlie McAvoy. Time of the goal 18:44. Frederic's 6th goal of the season from McAvoy at 18:44.",
+    shortText: "Frederic (6th), McAvoy (A) @ 18:11",
+    name: "Trent Frederic",
+    firstName: "Trent",
+    lastName: "Frederic",
+    number: "11",
+    timeOfGoal: "18:44",
+    goalNumber: "6th",
+    assists: [
+      {
+        name: "Charlie McAvoy",
+        firstName: "Charlie",
+        lastName: "McAvoy",
+        number: "73"
+      }
+    ]
+  }
+})
 });
 
 
