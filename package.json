@@ -1,6 +1,6 @@
 {
   "name": "nhl-game-announce",
-  "version": "2025.01.11a",
+  "version": "2025.10.01",
   "type": "module",
   "main": "app.js",
   "scripts": {
@@ -13,7 +13,7 @@
   "description": "",
   "dependencies": {
     "dotenv": "^17.0.0",
-    "express": "^5.1.0",
+    "express": "^4.19.2",
     "morgan": "^1.10.0"
   },
   "volta": {
