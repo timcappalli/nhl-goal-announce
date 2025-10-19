@@ -114,7 +114,9 @@ export async function getGoalAnnouncement(gameId, announceName, team) {
 
       utils.debugLog(`mostRecentGoal: ${JSON.stringify(mostRecentGoal, null, 2)}`);
 
-      if (mostRecentGoal !== null) {
+      if (mostRecentGoal === null) {
+        return ({ status: "NO_GOALS", data: "" });
+      } else {
         let mostRecentTeamGoal;
 
         if (mostRecentGoal.teamAbbrev.default === `${team}`) {
@@ -123,7 +125,10 @@ export async function getGoalAnnouncement(gameId, announceName, team) {
           mostRecentTeamGoal = null;
         }
 
-        if (mostRecentTeamGoal) {
+        if (mostRecentTeamGoal === null) {
+          return ({ status: "OPPOSING_GOAL", data: "" });
+
+        } else {
           let goalFirst = mostRecentTeamGoal.firstName.default;
           let goalLast = mostRecentTeamGoal.lastName.default;
           let goalSweater = getSweaterNumber(mostRecentTeamGoal.playerId, roster);
@@ -150,7 +155,7 @@ export async function getGoalAnnouncement(gameId, announceName, team) {
             let assist2 = `number ${mostRecentTeamGoal.assists[1].sweaterNumber} ${mostRecentTeamGoal.assists[1].firstName.default} ${mostRecentTeamGoal.assists[1].lastName.default}`;
             fullAnnounce = `${announceName} goal, scored by number ${goalSweater}, ${scoredBy}. Assisted by ${assist1} and ${assist2}. Time of the goal ${mostRecentTeamGoal.timeInPeriod}... That's ${goalLast}'s ${goalCount} goal of the season from ${mostRecentTeamGoal.assists[0].lastName.default} and ${mostRecentTeamGoal.assists[1].lastName.default}, at ${mostRecentTeamGoal.timeInPeriod}.`;
             shortText = `${goalLast} (${goalCount}), ${mostRecentTeamGoal.assists[0].lastName.default} & ${mostRecentTeamGoal.assists[1].lastName.default} (A) @ ${mostRecentTeamGoal.timeInPeriod}`;
-            
+
             data.announcement = fullAnnounce;
             data.shortText = shortText;
             data.name = scoredBy;
@@ -161,7 +166,7 @@ export async function getGoalAnnouncement(gameId, announceName, team) {
             data.goalNumber = `${goalCount}`;
             data.assists.push({ name: `${mostRecentTeamGoal.assists[0].firstName.default} ${mostRecentTeamGoal.assists[0].lastName.default}`, firstName: `${mostRecentTeamGoal.assists[0].firstName.default}`, lastName: `${mostRecentTeamGoal.assists[0].lastName.default}`, number: `${mostRecentTeamGoal.assists[0].sweaterNumber}` });
             data.assists.push({ name: `${mostRecentTeamGoal.assists[1].firstName.default} ${mostRecentTeamGoal.assists[1].lastName.default}`, firstName: `${mostRecentTeamGoal.assists[1].firstName.default}`, lastName: `${mostRecentTeamGoal.assists[1].lastName.default}`, number: `${mostRecentTeamGoal.assists[1].sweaterNumber}` });
-            
+
           } else if (mostRecentTeamGoal.assists.length === 1) {
             let assist1 = `number ${mostRecentTeamGoal.assists[0].sweaterNumber} ${mostRecentTeamGoal.assists[0].firstName.default} ${mostRecentTeamGoal.assists[0].lastName.default}`;
             fullAnnounce = `${announceName} goal, scored by number ${goalSweater}, ${scoredBy}. Assisted by ${assist1}. Time of the goal ${mostRecentTeamGoal.timeInPeriod}. ${goalLast}'s ${goalCount} goal of the season from ${mostRecentTeamGoal.assists[0].lastName.default} at ${mostRecentTeamGoal.timeInPeriod}.`;
@@ -194,11 +199,8 @@ export async function getGoalAnnouncement(gameId, announceName, team) {
           utils.debugLog(data);
 
           return ({ status: "GOAL", data });
-        };
-
-      } else {
-        return ({ status: "NO_GOALS", data })
-      };
+        }
+      }
     }
   } catch (error) {
     utils.debugError("getGoalAnnouncement: Error fetching or processing data:", error);
