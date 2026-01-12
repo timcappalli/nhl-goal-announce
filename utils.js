@@ -78,8 +78,20 @@ export function getLocalDate(tzString) {
 };
 
 export function timeToSpeech(rawTime) {
-  const [minutes, seconds] = rawTime.split(':').map(Number);
+  // Validate input before attempting to split
+  if (typeof rawTime !== 'string' || !rawTime.includes(':')) {
+    // For invalid inputs, avoid throwing and return a safe fallback
+    return rawTime == null ? '' : String(rawTime);
+  }
 
+  const [minutesStr, secondsStr] = rawTime.split(':');
+  const minutes = Number(minutesStr);
+  const seconds = Number(secondsStr);
+
+  // If parsing fails, fall back to returning the original value
+  if (Number.isNaN(minutes) || Number.isNaN(seconds)) {
+    return rawTime;
+  }
   if (seconds === 0) {
     return `${Number(minutes)} minutes`;
   } else if (minutes === 0) {
