@@ -1,17 +1,11 @@
-# Use a smaller base image
-FROM dhi.io/node:25
-
-# Set the working directory inside the container
+FROM node:25-alpine AS builder
 WORKDIR /app
-
-# Copy package.json and package-lock.json (if available)
 COPY package*.json ./
-
-# Install app dependencies
 RUN npm ci --only=production
 
-# Copy the rest of the application code
-COPY . .
+FROM dhi.io/node:25
+WORKDIR /app
+COPY --from=builder --chown=node:node /app/node_modules ./node_modules
+COPY --chown=node:node . /app
 
-# Define the command to run your app
 CMD [ "node", "app.js" ]
