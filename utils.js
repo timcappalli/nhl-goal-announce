@@ -1,6 +1,6 @@
 import 'dotenv/config';
 const DEBUG = process.env.DEBUG || false;
-const TIME_ANNOUNCE = process.env.TIME_ANNOUNCE || 'human';
+const TIME_ANNOUNCE = process.env.TIME_ANNOUNCE || 'raw';
 
 export function getOrdinal(n) {
   let ord = 'th';
