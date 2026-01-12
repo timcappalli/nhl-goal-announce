@@ -1,5 +1,5 @@
 # Use a smaller base image
-FROM node:22-alpine
+FROM dhi.io/node:25
 
 # Set the working directory inside the container
 WORKDIR /app
