@@ -126,4 +126,4 @@ Config is done via environment variables passed to the container.
 | `PORT`          | 1-65535                                                                       | `3000`             | Port for the web app                                                                                                                                                        |
 | `DEBUG`         | `true`, `false`                                                               | `false`            | Enable debug logging                                                                                                                                                        |
 
-`TEAM_ABBREV: `ANA`,`ARI`,`BOS`,`BUF`,`CAR`,`CBJ`,`CGY`,`CHI`,`COL`,`DAL`,`DET`,`EDM`,`FLA`,`LAK`,`MIN`,`MTL`,`NJD`,`NSH`,`NYI`,`NYR`,`OTT`,`PHI`,`PIT`,`SEA`,`SJS`,`STL`,`TBL`,`TOR`,`UTA`,`VAN`,`VGS`,`WPG`,`WSH`
+`TEAM_ABBREV`: `ANA`,`ARI`,`BOS`,`BUF`,`CAR`,`CBJ`,`CGY`,`CHI`,`COL`,`DAL`,`DET`,`EDM`,`FLA`,`LAK`,`MIN`,`MTL`,`NJD`,`NSH`,`NYI`,`NYR`,`OTT`,`PHI`,`PIT`,`SEA`,`SJS`,`STL`,`TBL`,`TOR`,`UTA`,`VAN`,`VGS`,`WPG`,`WSH`
