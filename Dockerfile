@@ -8,4 +8,5 @@ WORKDIR /app
 COPY --from=builder --chown=node:node /app/node_modules ./node_modules
 COPY --chown=node:node . /app
 
+ENTRYPOINT []
 CMD [ "node", "app.js" ]
