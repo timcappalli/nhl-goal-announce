@@ -11,6 +11,7 @@ const ANNOUNCE_NAME = process.env.ANNOUNCE_NAME || 'Boston';
 const TZ_NAME = process.env.TZ_NAME || 'America/New_York';
 const PORT = process.env.PORT || 3000;
 const DEBUG = process.env.DEBUG || false;
+const TIME_ANNOUNCE = process.env.TIME_ANNOUNCE || 'raw';
 
 if (!utils.checkTimeZoneString(TZ_NAME)) {
   console.error(`Invalid timezone string: ${TZ_NAME}. (See: https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)`);
@@ -108,7 +109,7 @@ app.get('/getGameId', async (req, res) => {
 
 app.get('/config', (req, res) => {
 
-  res.send({ "teamAbbrev": TEAM_ABBREV, "announceName": ANNOUNCE_NAME, "timezone": TZ_NAME, "version": pkgJson.version })
+  res.send({ "teamAbbrev": TEAM_ABBREV, "announceName": ANNOUNCE_NAME, "timezone": TZ_NAME, "version": pkgJson.version, "timeAnnounce": TIME_ANNOUNCE })
 
 });
 
