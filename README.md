@@ -117,10 +117,13 @@ These endpoints always return the same response for testing.
 
 Config is done via environment variables passed to the container.
 
-| ENV             | Description                                                             | Default            |
-| --------------- | ----------------------------------------------------------------------- | ------------------ |
-| `TEAM_ABBREV`   | Team abbreviation (e.g. BOS, NYR, SEA)                                  | `BOS`              |
-| `ANNOUNCE_NAME` | The name for use in the announcement (e.g. "Boston goal, scored by...") | `Boston`           |
-| `TZ_NAME`       | Timezone string (e.g. America/New_York)                                 | `America/New_York` |
-| `PORT`          | Port for the web app                                                    | `3000`             |
-| `DEBUG`         | Enable debug logging                                                    | `false`            |
+| ENV             | OPTIONS                                                                       | DEFAULT            | DESCRIPTION                                                                                                                                                                 |
+| --------------- | ----------------------------------------------------------------------------- | ------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `TEAM_ABBREV`   | see below                                                                     | `BOS`              | Team abbreviation                                                                                                                                                           |
+| `ANNOUNCE_NAME` | anything                                                                      | `Boston`           | The name for use in the announcement (e.g. "Boston goal, scored by...")                                                                                                     |
+| `TIME_ANNOUNCE` | `raw`, `human`                                                                | `raw`              | The way the time is written in the announcement. `raw` is the exact value: "12:03", `human` is the more human literal way to say it: "12 oh 3" (to help with TTS services). |
+| `TZ_NAME`       | [TZ Identifier](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) | `America/New_York` | Timezone string (e.g. America/New_York)                                                                                                                                     |
+| `PORT`          | 1-65535                                                                       | `3000`             | Port for the web app                                                                                                                                                        |
+| `DEBUG`         | `true`, `false`                                                               | `false`            | Enable debug logging                                                                                                                                                        |
+
+`TEAM_ABBREV: `ANA`,`ARI`,`BOS`,`BUF`,`CAR`,`CBJ`,`CGY`,`CHI`,`COL`,`DAL`,`DET`,`EDM`,`FLA`,`LAK`,`MIN`,`MTL`,`NJD`,`NSH`,`NYI`,`NYR`,`OTT`,`PHI`,`PIT`,`SEA`,`SJS`,`STL`,`TBL`,`TOR`,`UTA`,`VAN`,`VGS`,`WPG`,`WSH`
