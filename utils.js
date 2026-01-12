@@ -1,5 +1,6 @@
 import 'dotenv/config';
 const DEBUG = process.env.DEBUG || false;
+const TIME_ANNOUNCE = process.env.TIME_ANNOUNCE || 'human';
 
 export function getOrdinal(n) {
   let ord = 'th';
@@ -75,3 +76,22 @@ export function getLocalDate(tzString) {
   const isoString = `${dateTime.year}-${dateTime.month}-${dateTime.day}`;
   return isoString
 };
+
+export function timeToSpeech(rawTime) {
+  const [minutes, seconds] = rawTime.split(':').map(Number);
+
+  if (seconds === 0) {
+    return `${Number(minutes)} minutes`;
+  } else if (minutes === 0) {
+    return `${seconds} seconds`;
+  } else if (TIME_ANNOUNCE === 'raw') {
+    return rawTime;
+  } else if (TIME_ANNOUNCE === 'human') {
+    if (seconds < 10) {
+      return `${Number(minutes)} oh ${seconds}`;
+    }
+    return `${Number(minutes)} ${seconds}`;
+  } else {
+    return rawTime;
+  };
+}
