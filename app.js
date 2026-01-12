@@ -50,32 +50,32 @@ app.get('/demo/announce', (req, res) => {
 
 app.get('/demo/goal', (req, res) => {
   res.send({
-  status: "GOAL",
-  data: {
-    announcement: "Boston goal, scored by number 28, Elias Lindholm. Assisted by number 18 Pavel Zacha and number 88 David Pastrnak. Time of the goal 15 seconds. Lindholm's 2nd goal of the season from Zach and Pastranak at 15 seconds.",
-    shortText: "Lindholm (2nd), Zacha (A) Pastrnak (A) @ 15s",
-    name: "Elias Lindholm",
-    firstName: "Elias",
-    lastName: "Lindholm",
-    number: "28",
-    timeOfGoal: "00:15",
-    goalNumber: "2nd",
-    assists: [
-      {
-        name: "Pavel Zacha",
-        firstName: "Pavel",
-        lastName: "Zacha",
-        number: "18"
-      },
-      {
-        name: "David Pastrnak",
-        firstName: "David",
-        lastName: "Pastrnak",
-        number: "88"
-      }
-    ]
-  }
-})
+    status: "GOAL",
+    data: {
+      announcement: "Boston goal, scored by number 28, Elias Lindholm. Assisted by number 18 Pavel Zacha and number 88 David Pastrnak. Time of the goal 15 seconds. Lindholm's 2nd goal of the season from Zach and Pastranak at 15 seconds.",
+      shortText: "Lindholm (2nd), Zacha (A) Pastrnak (A) @ 15s",
+      name: "Elias Lindholm",
+      firstName: "Elias",
+      lastName: "Lindholm",
+      number: "28",
+      timeOfGoal: "00:15",
+      goalNumber: "2nd",
+      assists: [
+        {
+          name: "Pavel Zacha",
+          firstName: "Pavel",
+          lastName: "Zacha",
+          number: "18"
+        },
+        {
+          name: "David Pastrnak",
+          firstName: "David",
+          lastName: "Pastrnak",
+          number: "88"
+        }
+      ]
+    }
+  })
 });
 
 
