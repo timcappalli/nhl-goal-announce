@@ -93,16 +93,16 @@ export function timeToSpeech(rawTime) {
     return rawTime;
   }
   if (seconds === 0) {
-    return `${Number(minutes)} minutes`;
+    return `${minutes} minutes`;
   } else if (minutes === 0) {
     return `${seconds} seconds`;
   } else if (TIME_ANNOUNCE === 'raw') {
     return rawTime;
   } else if (TIME_ANNOUNCE === 'human') {
     if (seconds < 10) {
-      return `${Number(minutes)} oh ${seconds}`;
+      return `${minutes} oh ${seconds}`;
     }
-    return `${Number(minutes)} ${seconds}`;
+    return `${minutes} ${seconds}`;
   } else {
     return rawTime;
   };
