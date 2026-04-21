@@ -26,7 +26,7 @@ const fetchGameData = async (req, res, next) => {
   try {
     const gameIdResponse = await nhl.fetchTodaysGameId(TEAM_ABBREV);
     if (gameIdResponse.status !== 1) {
-      return res.status(204).end();
+      return res.send({ status: "NO_GAMES", data: "" });
     }
 
     const goalData = await nhl.getGoalAnnouncement(gameIdResponse.data, ANNOUNCE_NAME, TEAM_ABBREV);
@@ -103,7 +103,7 @@ app.get('/getGameId', async (req, res) => {
   if (data.status === 1) {
     res.send(data.data)
   } else {
-    res.status(204).end();
+    res.send({ status: "NO_GAMES", data: "" });
   };
 });
 
