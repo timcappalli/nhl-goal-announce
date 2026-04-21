@@ -112,6 +112,9 @@ export async function getGoalAnnouncement(gameId, announceName, team) {
 
       let mostRecentGoal = summary.scoring.at(-1).goals.at(-1) || null;
 
+      const postseason = jsonData.gameType === 3;
+      const playerGoalSnip = postseason ? "goal of the playoffs" : "goal of the season";
+
       utils.debugLog(`mostRecentGoal: ${JSON.stringify(mostRecentGoal, null, 2)}`);
 
       if (mostRecentGoal === null) {
@@ -159,13 +162,13 @@ export async function getGoalAnnouncement(gameId, announceName, team) {
             let assist2 = `number ${mostRecentTeamGoal.assists[1].sweaterNumber} ${mostRecentTeamGoal.assists[1].firstName.default} ${mostRecentTeamGoal.assists[1].lastName.default}`;
 
             if (ppg) {
-              fullAnnounce = `${announceName}, power play goal, scored by number ${goalSweater}, ${scoredBy}. Assisted by ${assist1} and ${assist2}. Time of the goal ${pTime}... That's ${goalLast}'s ${goalCount} goal of the season from ${mostRecentTeamGoal.assists[0].lastName.default} and ${mostRecentTeamGoal.assists[1].lastName.default}, at ${pTime}.`;
+              fullAnnounce = `${announceName}, power play goal, scored by number ${goalSweater}, ${scoredBy}. Assisted by ${assist1} and ${assist2}. Time of the goal ${pTime}... That's ${goalLast}'s ${goalCount} ${playerGoalSnip} from ${mostRecentTeamGoal.assists[0].lastName.default} and ${mostRecentTeamGoal.assists[1].lastName.default}, at ${pTime}.`;
               shortText = `PPG: ${goalLast} (${goalCount}), ${mostRecentTeamGoal.assists[0].lastName.default} & ${mostRecentTeamGoal.assists[1].lastName.default} (A) @ ${mostRecentTeamGoal.timeInPeriod}`;
             } else if (shg) {
-              fullAnnounce = `${announceName} goal, short handed, scored by number ${goalSweater}, ${scoredBy}. Assisted by ${assist1} and ${assist2}. Time of the goal ${pTime}... That's ${goalLast}'s ${goalCount} goal of the season from ${mostRecentTeamGoal.assists[0].lastName.default} and ${mostRecentTeamGoal.assists[1].lastName.default}, at ${pTime}.`;
+              fullAnnounce = `${announceName} goal, short handed, scored by number ${goalSweater}, ${scoredBy}. Assisted by ${assist1} and ${assist2}. Time of the goal ${pTime}... That's ${goalLast}'s ${goalCount} ${playerGoalSnip} from ${mostRecentTeamGoal.assists[0].lastName.default} and ${mostRecentTeamGoal.assists[1].lastName.default}, at ${pTime}.`;
               shortText = `SHG: ${goalLast} (${goalCount}), ${mostRecentTeamGoal.assists[0].lastName.default} & ${mostRecentTeamGoal.assists[1].lastName.default} (A) @ ${mostRecentTeamGoal.timeInPeriod}`;
             } else {
-              fullAnnounce = `${announceName} goal, scored by number ${goalSweater}, ${scoredBy}. Assisted by ${assist1} and ${assist2}. Time of the goal ${pTime}... That's ${goalLast}'s ${goalCount} goal of the season from ${mostRecentTeamGoal.assists[0].lastName.default} and ${mostRecentTeamGoal.assists[1].lastName.default}, at ${pTime}.`;
+              fullAnnounce = `${announceName} goal, scored by number ${goalSweater}, ${scoredBy}. Assisted by ${assist1} and ${assist2}. Time of the goal ${pTime}... That's ${goalLast}'s ${goalCount} ${playerGoalSnip} from ${mostRecentTeamGoal.assists[0].lastName.default} and ${mostRecentTeamGoal.assists[1].lastName.default}, at ${pTime}.`;
               shortText = `${goalLast} (${goalCount}), ${mostRecentTeamGoal.assists[0].lastName.default} & ${mostRecentTeamGoal.assists[1].lastName.default} (A) @ ${mostRecentTeamGoal.timeInPeriod}`;
             }
 
@@ -184,13 +187,13 @@ export async function getGoalAnnouncement(gameId, announceName, team) {
             let assist1 = `number ${mostRecentTeamGoal.assists[0].sweaterNumber} ${mostRecentTeamGoal.assists[0].firstName.default} ${mostRecentTeamGoal.assists[0].lastName.default}`;
 
             if (ppg) {
-              fullAnnounce = `${announceName}, power play goal, scored by number ${goalSweater}, ${scoredBy}. Assisted by ${assist1}. Time of the goal ${pTime}. ${goalLast}'s ${goalCount} goal of the season from ${mostRecentTeamGoal.assists[0].lastName.default} at ${pTime}.`;
+              fullAnnounce = `${announceName}, power play goal, scored by number ${goalSweater}, ${scoredBy}. Assisted by ${assist1}. Time of the goal ${pTime}. ${goalLast}'s ${goalCount} ${playerGoalSnip} from ${mostRecentTeamGoal.assists[0].lastName.default} at ${pTime}.`;
               shortText = `PPG: ${goalLast} (${goalCount}), ${mostRecentTeamGoal.assists[0].lastName.default} (A) @ ${mostRecentTeamGoal.timeInPeriod}`;
             } else if (shg) {
-              fullAnnounce = `${announceName} goal, short handed, scored by number ${goalSweater}, ${scoredBy}. Assisted by ${assist1}. Time of the goal ${pTime}. ${goalLast}'s ${goalCount} goal of the season from ${mostRecentTeamGoal.assists[0].lastName.default} at ${pTime}.`;
+              fullAnnounce = `${announceName} goal, short handed, scored by number ${goalSweater}, ${scoredBy}. Assisted by ${assist1}. Time of the goal ${pTime}. ${goalLast}'s ${goalCount} ${playerGoalSnip} from ${mostRecentTeamGoal.assists[0].lastName.default} at ${pTime}.`;
               shortText = `SHG: ${goalLast} (${goalCount}), ${mostRecentTeamGoal.assists[0].lastName.default} (A) @ ${mostRecentTeamGoal.timeInPeriod}`;
             } else {
-              fullAnnounce = `${announceName} goal, scored by number ${goalSweater}, ${scoredBy}. Assisted by ${assist1}. Time of the goal ${pTime}. ${goalLast}'s ${goalCount} goal of the season from ${mostRecentTeamGoal.assists[0].lastName.default} at ${pTime}.`;
+              fullAnnounce = `${announceName} goal, scored by number ${goalSweater}, ${scoredBy}. Assisted by ${assist1}. Time of the goal ${pTime}. ${goalLast}'s ${goalCount} ${playerGoalSnip} from ${mostRecentTeamGoal.assists[0].lastName.default} at ${pTime}.`;
               shortText = `${goalLast} (${goalCount}), ${mostRecentTeamGoal.assists[0].lastName.default} (A) @ ${mostRecentTeamGoal.timeInPeriod}`;
             }
 
@@ -206,13 +209,13 @@ export async function getGoalAnnouncement(gameId, announceName, team) {
           } else {
 
             if (ppg) {
-              fullAnnounce = `${announceName}, power play goal, an unassisted goal, scored by number ${goalSweater}, ${scoredBy}. Time of the goal ${pTime}. That's ${goalLast}'s ${goalCount} goal of the season at ${pTime}.`;
+              fullAnnounce = `${announceName}, power play goal, an unassisted goal, scored by number ${goalSweater}, ${scoredBy}. Time of the goal ${pTime}. That's ${goalLast}'s ${goalCount} ${playerGoalSnip} at ${pTime}.`;
               shortText = `PPG: ${goalLast} (${goalCount}) @ ${mostRecentTeamGoal.timeInPeriod}`;
             } else if (shg) {
-              fullAnnounce = `${announceName} goal, an unassisted short handed goal, scored by number ${goalSweater}, ${scoredBy}. Time of the goal ${pTime}. That's ${goalLast}'s ${goalCount} goal of the season at ${pTime}.`;
+              fullAnnounce = `${announceName} goal, an unassisted short handed goal, scored by number ${goalSweater}, ${scoredBy}. Time of the goal ${pTime}. That's ${goalLast}'s ${goalCount} ${playerGoalSnip} at ${pTime}.`;
               shortText = `SHG: ${goalLast} (${goalCount}) @ ${mostRecentTeamGoal.timeInPeriod}`;
             } else {
-              fullAnnounce = `${announceName} goal, an unassisted goal, scored by number ${goalSweater}, ${scoredBy}. Time of the goal ${pTime}. That's ${goalLast}'s ${goalCount} goal of the season at ${pTime}.`;
+              fullAnnounce = `${announceName} goal, an unassisted goal, scored by number ${goalSweater}, ${scoredBy}. Time of the goal ${pTime}. That's ${goalLast}'s ${goalCount} ${playerGoalSnip} at ${pTime}.`;
               shortText = `${goalLast} (${goalCount}) @ ${mostRecentTeamGoal.timeInPeriod}`;
             }
 
