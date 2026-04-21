@@ -15,8 +15,6 @@ This is the primary endpoint for fetching the goal announcement. It only returns
 }
 ```
 
-If the previous goal wasn't from the configured team, or its a scoreless game, the status will be `NO_GOAL`.
-
 **/goal**
 
 This is the is a more detail endpoint which returns the announcement as well as the raw goal data. Sample response:
@@ -45,7 +43,16 @@ This is the is a more detail endpoint which returns the announcement as well as 
 }
 ```
 
-If the previous goal wasn't from the configured team, or its a scoreless game, the status will be `NO_GOAL`.
+#### Status Codes
+
+| Status          | Description                                          |
+| --------------- | ---------------------------------------------------- |
+| `GOAL`          | A goal was scored by the configured team             |
+| `NO_GOALS`      | No goals have been scored yet in the game            |
+| `NO_GAMES`      | No game found for the configured team today          |
+| `OPPOSING_GOAL` | The most recent goal was scored by the opposing team |
+| `NOT_STARTED`   | The game has not started yet                         |
+| `ERROR`         | An error occurred fetching or processing goal data   |
 
 **/getGameId**
 
