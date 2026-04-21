@@ -10,7 +10,7 @@ const TEAM_ABBREV = process.env.TEAM_ABBREV || 'BOS';
 const ANNOUNCE_NAME = process.env.ANNOUNCE_NAME || 'Boston';
 const TZ_NAME = process.env.TZ_NAME || 'America/New_York';
 const PORT = process.env.PORT || 3000;
-const DEBUG = process.env.DEBUG || false;
+const DEBUG = process.env.DEBUG === 'true';
 const TIME_ANNOUNCE = process.env.TIME_ANNOUNCE || 'raw';
 
 if (!utils.checkTimeZoneString(TZ_NAME)) {
